@@ -19,7 +19,7 @@ private:
 
 public:
     Client(const string &firstName, const string &lastName, const string &address,
-           const char gender);  //simple constructor
+           char gender);  //simple constructor
 
     string getFirstName() const;
 
