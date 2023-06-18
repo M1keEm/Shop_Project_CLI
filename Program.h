@@ -6,13 +6,15 @@
 #define SHOP_PROJECT_CLI_PROGRAM_H
 
 #include "Client.h"
+#include "Order.h"
 #include "vector"
 
 class Program {
 private:
     vector<Client> clients;
-    //vector<Order> orders;
+    vector<Order> orders;
     vector<string> products;
+
 
 public:
     void AddNewClient();
@@ -20,6 +22,12 @@ public:
     void ModifyClient();
 
     void SaveClientsToFile();
+
+    void AddNewOrder();
+
+    void EditOrder();
+
+    void loadProductsFromFile();
 
 };
 

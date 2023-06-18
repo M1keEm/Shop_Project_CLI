@@ -4,6 +4,13 @@
 
 #include "Program.h"
 #include <fstream>
+#include <sstream>
+
+struct Product {
+    string name;
+    double price;
+    double vatRate;
+};
 
 void Program::AddNewClient() {
     string name, surname, address1;
@@ -111,4 +118,87 @@ void Program::SaveClientsToFile() {
         cout << "Blad zapisu" << endl;
     }
     file.close();
+}
+
+void Program::AddNewOrder() {
+    string productName1, orderDate1, clientName1;
+    double vat1, price1, totalValue1;
+    int quantity1, clientNumber1;
+    PaymentMethod paymentMethod1;
+
+    cout << "Podaj nr klienta skladajacego zamowienie: " << endl;
+    cin >> clientNumber1;
+    while (clientNumber1 > clients.size() || clientNumber1 < 1) {
+        cout << "Nie ma takiego klienta" << endl;
+        cout << "Podaj nr klienta skladajacego zamowienie: " << endl;
+        cin >> clientNumber1;
+    }
+    cout << "Wybrano klienta: " << clients[clientNumber1 - 1].getFirstName() << " "
+         << clients[clientNumber1 - 1].getLastName() << endl;
+    cout << "Podaj nazwe produktu: " << endl;
+    cin >> productName1;
+    cout << "Podaj ilosc: " << endl;
+    cin >> quantity1;
+    cout << "Podaj VAT: " << endl;
+    cin >> vat1;
+    cout << "Podaj cene: " << endl;
+    cin >> price1;
+    cout << "Podaj sposob zaplaty: " << endl;
+    cout << "1 >>> Karta" << endl;
+    cout << "2 >>> Gotowka" << endl;
+    cout << "3 >>> Przelew" << endl;
+    int choice;
+    cin >> choice;
+    while (choice != 1 && choice != 2 && choice != 3) {
+        cout << "Niepoprawny wybor" << endl;
+        cout << "Podaj sposob zaplaty: " << endl;
+        cout << "1 >>> Karta" << endl;
+        cout << "2 >>> Gotowka" << endl;
+        cout << "3 >>> Przelew" << endl;
+        cout << "4 >>> Blik" << endl;
+        cin >> choice;
+    }
+    switch (choice) {
+        case 1:
+            paymentMethod1 = karta;
+            break;
+        case 2:
+            paymentMethod1 = gotowka;
+            break;
+        case 3:
+            paymentMethod1 = przelew;
+            break;
+        case 4:
+            paymentMethod1 = blik;
+            break;
+        default:
+            cout << "Niepoprawny wybor" << endl;
+            break;
+    }
+    cout << "Podaj date zamowienia: " << endl;
+    cin.ignore();
+    getline(std::cin, orderDate1);
+    clientName1 = clients[clientNumber1 - 1].getFirstName() + " " + clients[clientNumber1 - 1].getLastName();
+    totalValue1 = quantity1 * price1 * (1 + vat1 / 100);
+
+    Order order(productName1, quantity1, price1, vat1, orderDate1, totalValue1, paymentMethod1, clientName1);
+    orders.push_back(order);
+    cout << "Zamowienie zostalo dodane do bazy danych" << endl;
+}
+
+void Program::loadProductsFromFile() {
+    string fileName;
+    ifstream inputFile("products.txt");
+    if (inputFile.is_open()) {
+        string product;
+        while (getline(inputFile, product)) {
+            products.push_back(product);
+            system("cls");
+        }
+        cout << "Zaladowano produkty z pliku" << endl;
+    } else {
+        cout << "Blad podczas proby zaladowania produktow z pliku" << endl;
+    }
+    system("pause");
+    system("cls");
 }
