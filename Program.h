@@ -25,15 +25,17 @@ public:
 
     void AddNewOrder();
 
+    void EditOrder();
+
     void displayOrders();
 
     void displayProducts();
 
-    void EditOrder();
-
     void loadProductsFromFile();
 
-    void saveOrdersToFile();
+    void SaveOrdersToFile();
+
+    void menu();
 
 };
 

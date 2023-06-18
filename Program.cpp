@@ -313,7 +313,7 @@ void Program::loadProductsFromFile() {
     system("cls");
 }
 
-void Program::saveOrdersToFile() {
+void Program::SaveOrdersToFile() {
     ofstream outputFile("orders.txt");
     if (outputFile.is_open() && !orders.empty()) {
         for (const auto &order: orders) {
@@ -336,5 +336,60 @@ void Program::displayProducts() {
     cout << "Wyswietlam dostepne produkty..." << endl;
     for (const auto &product: products) {
         cout << product << endl;
+    }
+}
+
+void Program::menu() {
+    int choice;
+    loadProductsFromFile();
+    cout << "Witaj w programie do obslugi zamowien" << endl;
+    cout << "Wybierz opcje z menu: " << endl;
+    cout << "1 >>> Dodaj nowego klienta" << endl;
+    cout << "2 >>> Zmodyfikuj klienta" << endl;
+    cout << "3 >>> Dodaj nowe zamowienie" << endl;
+    cout << "4 >>> Edytuj zamowienie" << endl;
+    cout << "5 >>> Wyswietl produkty" << endl;
+    cout << "6 >>> Wyswietl zamowienia" << endl;
+    cout << "7 >>> Zapisz informacje o klientach do pliku" << endl;
+    cout << "8 >>> Zapisz informacje o zamowieniach do pliku" << endl;
+    cout << "0 >>> Exit" << endl;
+
+    cin >> choice;
+    while (choice != 0) {
+        switch (choice) {
+            case 1:
+                AddNewClient();
+                break;
+            case 2:
+                ModifyClient();
+                break;
+            case 3:
+                AddNewOrder();
+                break;
+            case 4:
+                EditOrder();
+                break;
+            case 5:
+                displayProducts();
+                break;
+            case 6:
+                displayOrders();
+                break;
+            case 7:
+                SaveClientsToFile();
+                break;
+            case 8:
+                SaveOrdersToFile();
+                break;
+            case 0:
+                cout << "Koniec dzialania programu" << endl;
+                cout << "Exiting..." << endl << endl;
+                break;
+            default:
+                cout << "Niepoprawny wybor" << endl;
+                break;
+        }
+        system("pause");
+        system("cls");
     }
 }
