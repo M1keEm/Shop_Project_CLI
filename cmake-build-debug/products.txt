@@ -1,6 +1,6 @@
-Whisky
-Papierosy
-Kawa
-Wodka
-Woda
-Piwo
+Whisky          5               99.99
+Papierosy       10              19.99
+Kawa            1               9.99
+Wodka           2               29.99
+Woda            1               1.99
+Piwo            6               2.99

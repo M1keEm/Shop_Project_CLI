@@ -21,6 +21,7 @@ void Program::AddNewClient() {
     while (gender1 != 'K' && gender1 != 'M') {
         cout << "Niepoprawna plec" << endl;
         cout << "Podaj plec: (K lub M)" << endl;
+        cin >> gender1;
     }
     cout << "Imie: " << endl;
     cin >> name;
@@ -52,7 +53,17 @@ void Program::ModifyClient() {
     cin >> choice;
     string newName, newSurname, newAddress;
     char newGender;
-    while (choice != 5 && choice > 1 && choice < 5) {
+    while (choice < 1 || choice > 5) {
+        cout << "Niepoprawny wybor" << endl;
+        cout << "Co chcesz zmienic? (wpisz cyfre od 1 do 4)" << endl;
+        cout << "1 >>> Imie" << endl;
+        cout << "2 >>> Nazwisko" << endl;
+        cout << "3 >>> Adres" << endl;
+        cout << "4 >>> Plec" << endl;
+        cout << "5 >>> Powrot do menu" << endl;
+        cin >> choice;
+    }
+    if (choice != 5) {
         switch (choice) {
             case 1:
                 cout << "Podaj nowe imie: " << endl;
@@ -75,7 +86,8 @@ void Program::ModifyClient() {
                 if (newGender != 'K' && newGender != 'M') {
                     cout << "Podano niepoprawna plec" << endl;
                     break;
-                } else clients[clientNumber - 1].setGender(newGender);
+                }
+                clients[clientNumber - 1].setGender(newGender);
                 break;
             case 5:
                 cout << "Powrot do menu" << endl;
@@ -139,14 +151,24 @@ void Program::AddNewOrder() {
     cin >> productName1;
     cout << "Podaj ilosc: " << endl;
     cin >> quantity1;
-    cout << "Podaj VAT: " << endl;
-    cin >> vat1;
-    cout << "Podaj cene: " << endl;
-    cin >> price1;
+    ifstream file1;
+    file1.open("C:products.txt");
+    string productNameF;
+    float quantityF, priceF, valueF;
+    valueF = 0;
+    for (int i = 0; i < 6; i++) {
+        file1 >> productNameF >> quantityF >> priceF;
+        if (productName1 == productNameF) {
+            price1 = priceF;
+            vat1 = quantity1 * (0.23 * priceF);
+            valueF += quantity1 * priceF + (quantity1 * (0.23 * priceF));
+        }
+    }
     cout << "Podaj sposob zaplaty: " << endl;
     cout << "1 >>> Karta" << endl;
     cout << "2 >>> Gotowka" << endl;
     cout << "3 >>> Przelew" << endl;
+    cout << "4 >>> Blik" << endl;
     int choice;
     cin >> choice;
     while (choice != 1 && choice != 2 && choice != 3 && choice != 4) {
@@ -160,16 +182,16 @@ void Program::AddNewOrder() {
     }
     switch (choice) {
         case 1:
-            paymentMethod1 = karta;
+            paymentMethod1 = PaymentMethod::karta;
             break;
         case 2:
-            paymentMethod1 = gotowka;
+            paymentMethod1 = PaymentMethod::gotowka;
             break;
         case 3:
-            paymentMethod1 = przelew;
+            paymentMethod1 = PaymentMethod::przelew;
             break;
         case 4:
-            paymentMethod1 = blik;
+            paymentMethod1 = PaymentMethod::blik;
             break;
         default:
             cout << "Niepoprawny wybor" << endl;
@@ -179,9 +201,8 @@ void Program::AddNewOrder() {
     cin.ignore();
     getline(std::cin, orderDate1);
     clientName1 = clients[clientNumber1 - 1].getFirstName() + " " + clients[clientNumber1 - 1].getLastName();
-    totalValue1 = quantity1 * price1 * (1 + vat1 / 100);
 
-    Order order(productName1, quantity1, price1, vat1, orderDate1, totalValue1, paymentMethod1, clientName1);
+    Order order(productName1, quantity1, price1, vat1, orderDate1, valueF, paymentMethod1, clientName1);
     orders.push_back(order);
     cout << "Zamowienie zostalo dodane do bazy danych" << endl;
 }
@@ -190,13 +211,13 @@ void Program::AddNewOrder() {
 void Program::displayOrders() {
     int i = 0;
     for (const auto &order: orders) {
-        cout << "Indeks zamowienia: " << i << endl;
+        cout << "Nr zamowienia: " << i + 1 << endl;
         cout << "Imie i nazwisko klienta: " << order.getClientName() << endl;
         cout << "Data: " << order.getOrderDate() << endl;
         cout << "Produkt: " << order.getProductName() << endl;
         cout << "Cena: " << order.getPrice() << endl;
         cout << "Ilosc: " << order.getQuantity() << endl;
-        cout << "Vat: " << order.getVatRate() << endl;
+        cout << "Koszt VAT: " << order.getVatRate() << endl;
         cout << "Calkowita wartosc zamowienia: " << order.getTotalValue() << endl;
         cout << "Metoda platnosci: " << order.getPaymentMethod() << endl;
         cout << "===============================================" << endl;
@@ -266,16 +287,16 @@ void Program::EditOrder() {
     }
     switch (choice) {
         case 1:
-            paymentMethod = karta;
+            paymentMethod = PaymentMethod::karta;
             break;
         case 2:
-            paymentMethod = gotowka;
+            paymentMethod = PaymentMethod::gotowka;
             break;
         case 3:
-            paymentMethod = przelew;
+            paymentMethod = PaymentMethod::przelew;
             break;
         case 4:
-            paymentMethod = blik;
+            paymentMethod = PaymentMethod::blik;
             break;
         default:
             cout << "Niepoprawny wybor" << endl;
@@ -309,8 +330,6 @@ void Program::loadProductsFromFile() {
     } else {
         cout << "Blad podczas proby zaladowania produktow z pliku" << endl;
     }
-    system("pause");
-    system("cls");
 }
 
 void Program::SaveOrdersToFile() {
@@ -342,20 +361,20 @@ void Program::displayProducts() {
 void Program::menu() {
     int choice;
     loadProductsFromFile();
-    cout << "Witaj w programie do obslugi zamowien" << endl;
-    cout << "Wybierz opcje z menu: " << endl;
-    cout << "1 >>> Dodaj nowego klienta" << endl;
-    cout << "2 >>> Zmodyfikuj klienta" << endl;
-    cout << "3 >>> Dodaj nowe zamowienie" << endl;
-    cout << "4 >>> Edytuj zamowienie" << endl;
-    cout << "5 >>> Wyswietl produkty" << endl;
-    cout << "6 >>> Wyswietl zamowienia" << endl;
-    cout << "7 >>> Zapisz informacje o klientach do pliku" << endl;
-    cout << "8 >>> Zapisz informacje o zamowieniach do pliku" << endl;
-    cout << "0 >>> Exit" << endl;
-
-    cin >> choice;
+    choice = 1;
     while (choice != 0) {
+        cout << "Witaj w programie do obslugi zamowien" << endl;
+        cout << "Wybierz opcje z menu: " << endl;
+        cout << "1 >>> Dodaj nowego klienta" << endl;
+        cout << "2 >>> Zmodyfikuj klienta" << endl;
+        cout << "3 >>> Dodaj nowe zamowienie" << endl;
+        cout << "4 >>> Edytuj zamowienie" << endl;
+        cout << "5 >>> Wyswietl produkty" << endl;
+        cout << "6 >>> Wyswietl zamowienia" << endl;
+        cout << "7 >>> Zapisz informacje o klientach do pliku" << endl;
+        cout << "8 >>> Zapisz informacje o zamowieniach do pliku" << endl;
+        cout << "0 >>> Exit" << endl;
+        cin >> choice;
         switch (choice) {
             case 1:
                 AddNewClient();
@@ -390,6 +409,5 @@ void Program::menu() {
                 break;
         }
         system("pause");
-        system("cls");
     }
 }
