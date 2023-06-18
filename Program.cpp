@@ -30,10 +30,10 @@ void Program::ModifyClient() {
     cout << "Podaj nr klienta do edycji: " << endl;
     int clientNumber;
     cin >> clientNumber;
-    while(clientNumber>clients.size() || clientNumber<1){
-        cout<<"Nie ma takiego klienta"<<endl;
-        cout<<"Podaj nr klienta do edycji: "<<endl;
-        cin>>clientNumber;
+    while (clientNumber > clients.size() || clientNumber < 1) {
+        cout << "Nie ma takiego klienta" << endl;
+        cout << "Podaj nr klienta do edycji: " << endl;
+        cin >> clientNumber;
     }
     cout << "Co chcesz zmienic? (wpisz cyfre od 1 do 4)" << endl;
     cout << "1 >>> Imie" << endl;
@@ -83,7 +83,7 @@ void Program::ModifyClient() {
 void Program::SaveClientsToFile() {
     ofstream file;
     file.open("clients.txt");
-    if(file.good()){
+    if (file.good()) {
         for (int i = 0; i < clients.size(); i++) {
             file << i + 1 << ";";
             file << clients[i].getFirstName() << ";";
@@ -92,22 +92,22 @@ void Program::SaveClientsToFile() {
             file << clients[i].getGender() << endl;
         }
         cout << "Zapis do pliku tekstowego przebiegl pomyslnie" << endl;
-    }else{
+    } else {
         cout << "Blad zapisu" << endl;
     }
     //saving to binary file
     ofstream fileBinary;
-    fileBinary.open("clients.dat", ios:: out|ios::binary);
-    if(fileBinary.good() && fileBinary.is_open()){
+    fileBinary.open("clients.dat", ios::out | ios::binary);
+    if (fileBinary.good() && fileBinary.is_open()) {
         for (int i = 0; i < clients.size(); i++) {
-            fileBinary.write(reinterpret_cast<char*>(&i), sizeof(int));
-            fileBinary.write(reinterpret_cast<char*>(&clients[i]), clients.size());
+            fileBinary.write(reinterpret_cast<char *>(&i), sizeof(int));
+            fileBinary.write(reinterpret_cast<char *>(&clients[i]), clients.size());
 //            fileBinary.write((char*)&clients[i].getLastName(), sizeof(string));
 //            fileBinary.write((char*)&clients[i].getAddress(), sizeof(string));
 //            fileBinary.write((char*)&clients[i].getGender(), sizeof(char));
         }
         cout << "Zapis do pliku binarnego przebiegl pomyslnie" << endl;
-    }else{
+    } else {
         cout << "Blad zapisu" << endl;
     }
     file.close();
