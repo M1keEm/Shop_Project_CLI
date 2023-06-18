@@ -25,6 +25,8 @@ public:
 
     void AddNewOrder();
 
+    void displayOrders();
+
     void EditOrder();
 
     void loadProductsFromFile();

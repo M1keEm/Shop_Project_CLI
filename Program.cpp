@@ -149,7 +149,7 @@ void Program::AddNewOrder() {
     cout << "3 >>> Przelew" << endl;
     int choice;
     cin >> choice;
-    while (choice != 1 && choice != 2 && choice != 3) {
+    while (choice != 1 && choice != 2 && choice != 3 && choice != 4) {
         cout << "Niepoprawny wybor" << endl;
         cout << "Podaj sposob zaplaty: " << endl;
         cout << "1 >>> Karta" << endl;
@@ -185,6 +185,116 @@ void Program::AddNewOrder() {
     orders.push_back(order);
     cout << "Zamowienie zostalo dodane do bazy danych" << endl;
 }
+
+
+void Program::displayOrders() {
+    int i = 0;
+    for (const auto &order: orders) {
+        cout << "Indeks zamowienia: " << i << endl;
+        cout << "Imie i nazwisko klienta: " << order.getClientName() << endl;
+        cout << "Data: " << order.getOrderDate() << endl;
+        cout << "Produkt: " << order.getProductName() << endl;
+        cout << "Cena: " << order.getPrice() << endl;
+        cout << "Ilosc: " << order.getQuantity() << endl;
+        cout << "Vat: " << order.getVatRate() << endl;
+        cout << "Calkowita wartosc zamowienia: " << order.getTotalValue() << endl;
+        cout << "Metoda platnosci: " << order.getPaymentMethod() << endl;
+        cout << "===============================================" << endl;
+        i++;
+    }
+}
+
+void Program::EditOrder() {
+    int index;
+    string productName, orderDate, clientName;
+    PaymentMethod paymentMethod;
+    int quantity;
+    double vatRate, price, totalValue;
+    cout << "Podaj nr zamowienia do edycji: " << endl;
+    cin >> index;
+    while (index-1 > orders.size() || index-1 < 0) {
+        cout << "Nie ma takiego zamowienia" << endl;
+        cout << "Podaj indeks zamowienia do edycji: " << endl;
+        cin >> index;
+    }
+    cout << "Wybrano zamowienie: \n" << endl;
+    cout << "Imie i nazwisko klienta: " << orders[index-1].getClientName() << endl;
+    cout << "Data: " << orders[index-1].getOrderDate() << endl;
+    cout << "Produkt: " << orders[index-1].getProductName() << endl;
+    cout << "Cena: " << orders[index-1].getPrice() << endl;
+    cout << "Ilosc: " << orders[index-1].getQuantity() << endl;
+    cout << "Vat: " << orders[index-1].getVatRate() << endl;
+    cout << "Calkowita wartosc zamowienia: " << orders[index-1].getTotalValue() << endl;
+    cout << "Metoda platnosci: " << orders[index-1].getPaymentMethod() << endl;
+    cout << "===============================================" << endl;
+
+    cout << "Edycja imienia: ";
+    cin.ignore();
+    getline(cin, clientName);
+
+    cout << "Edycja nazwy produktu: ";
+    getline(cin, productName);
+
+    cout << "Edycja ilosci ";
+    cin >> quantity;
+
+    cout << "Edycja VAT: ";
+    cin >> vatRate;
+
+    cout << "Edycja ceny: ";
+    cin >> price;
+
+    cout << "Edycja daty: ";
+    cin.ignore();
+    getline(cin, orderDate);
+
+    cout << "Edycja metody platnosci: " << endl;
+    cout << "1 >>> Karta" << endl;
+    cout << "2 >>> Gotowka" << endl;
+    cout << "3 >>> Przelew" << endl;
+    cout << "4 >>> Blik" << endl;
+    int choice;
+    cin >> choice;
+    while (choice != 1 && choice != 2 && choice != 3 && choice != 4) {
+        cout << "Niepoprawny wybor" << endl;
+        cout << "Podaj sposob zaplaty: " << endl;
+        cout << "1 >>> Karta" << endl;
+        cout << "2 >>> Gotowka" << endl;
+        cout << "3 >>> Przelew" << endl;
+        cout << "4 >>> Blik" << endl;
+        cin >> choice;
+    }
+    switch (choice) {
+        case 1:
+            paymentMethod = karta;
+            break;
+        case 2:
+            paymentMethod = gotowka;
+            break;
+        case 3:
+            paymentMethod = przelew;
+            break;
+        case 4:
+            paymentMethod = blik;
+            break;
+        default:
+            cout << "Niepoprawny wybor" << endl;
+            break;
+    }
+
+    totalValue = price * quantity * (1 + vatRate);
+    orders[index-1].setProductName(productName);
+    orders[index-1].setQuantity(quantity);
+    orders[index-1].setVatRate(vatRate);
+    orders[index-1].setPrice(price);
+    orders[index-1].setOrderDate(orderDate);
+    orders[index-1].setTotalValue(totalValue);
+    orders[index-1].setPaymentMethod(paymentMethod);
+    orders[index-1].setClientName(clientName);
+
+    cout << "Zmiana danych zamowienia zakonczona sukcesem" << endl;
+}
+
 
 void Program::loadProductsFromFile() {
     string fileName;
