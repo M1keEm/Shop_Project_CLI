@@ -27,9 +27,13 @@ public:
 
     void displayOrders();
 
+    void displayProducts();
+
     void EditOrder();
 
     void loadProductsFromFile();
+
+    void saveOrdersToFile();
 
 };
 

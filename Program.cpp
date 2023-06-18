@@ -212,20 +212,20 @@ void Program::EditOrder() {
     double vatRate, price, totalValue;
     cout << "Podaj nr zamowienia do edycji: " << endl;
     cin >> index;
-    while (index-1 > orders.size() || index-1 < 0) {
+    while (index - 1 > orders.size() || index - 1 < 0) {
         cout << "Nie ma takiego zamowienia" << endl;
         cout << "Podaj indeks zamowienia do edycji: " << endl;
         cin >> index;
     }
     cout << "Wybrano zamowienie: \n" << endl;
-    cout << "Imie i nazwisko klienta: " << orders[index-1].getClientName() << endl;
-    cout << "Data: " << orders[index-1].getOrderDate() << endl;
-    cout << "Produkt: " << orders[index-1].getProductName() << endl;
-    cout << "Cena: " << orders[index-1].getPrice() << endl;
-    cout << "Ilosc: " << orders[index-1].getQuantity() << endl;
-    cout << "Vat: " << orders[index-1].getVatRate() << endl;
-    cout << "Calkowita wartosc zamowienia: " << orders[index-1].getTotalValue() << endl;
-    cout << "Metoda platnosci: " << orders[index-1].getPaymentMethod() << endl;
+    cout << "Imie i nazwisko klienta: " << orders[index - 1].getClientName() << endl;
+    cout << "Data: " << orders[index - 1].getOrderDate() << endl;
+    cout << "Produkt: " << orders[index - 1].getProductName() << endl;
+    cout << "Cena: " << orders[index - 1].getPrice() << endl;
+    cout << "Ilosc: " << orders[index - 1].getQuantity() << endl;
+    cout << "Vat: " << orders[index - 1].getVatRate() << endl;
+    cout << "Calkowita wartosc zamowienia: " << orders[index - 1].getTotalValue() << endl;
+    cout << "Metoda platnosci: " << orders[index - 1].getPaymentMethod() << endl;
     cout << "===============================================" << endl;
 
     cout << "Edycja imienia: ";
@@ -283,14 +283,14 @@ void Program::EditOrder() {
     }
 
     totalValue = price * quantity * (1 + vatRate);
-    orders[index-1].setProductName(productName);
-    orders[index-1].setQuantity(quantity);
-    orders[index-1].setVatRate(vatRate);
-    orders[index-1].setPrice(price);
-    orders[index-1].setOrderDate(orderDate);
-    orders[index-1].setTotalValue(totalValue);
-    orders[index-1].setPaymentMethod(paymentMethod);
-    orders[index-1].setClientName(clientName);
+    orders[index - 1].setProductName(productName);
+    orders[index - 1].setQuantity(quantity);
+    orders[index - 1].setVatRate(vatRate);
+    orders[index - 1].setPrice(price);
+    orders[index - 1].setOrderDate(orderDate);
+    orders[index - 1].setTotalValue(totalValue);
+    orders[index - 1].setPaymentMethod(paymentMethod);
+    orders[index - 1].setClientName(clientName);
 
     cout << "Zmiana danych zamowienia zakonczona sukcesem" << endl;
 }
@@ -311,4 +311,30 @@ void Program::loadProductsFromFile() {
     }
     system("pause");
     system("cls");
+}
+
+void Program::saveOrdersToFile() {
+    ofstream outputFile("orders.txt");
+    if (outputFile.is_open() && !orders.empty()) {
+        for (const auto &order: orders) {
+            outputFile << " Nazwa produktu: " << order.getProductName() << ","
+                       << " Ilosc: " << order.getQuantity() << ","
+                       << " Stawka VAT: " << order.getVatRate() << ","
+                       << " Cena: " << order.getPrice() << ","
+                       << " Data: " << order.getOrderDate() << ","
+                       << " Calkowita wartosc zamowienia: " << order.getTotalValue() << ","
+                       << " Metoda platnosci: " << order.getPaymentMethod() << ","
+                       << " Imie i nazwisko klienta: " << order.getClientName() << endl;
+        }
+        cout << "Zapis do pliku zakonczyl sie powodzeniem" << endl;
+    } else {
+        cout << "Blad zapisu " << endl;
+    }
+}
+
+void Program::displayProducts() {
+    cout << "Wyswietlam dostepne produkty..." << endl;
+    for (const auto &product: products) {
+        cout << product << endl;
+    }
 }
