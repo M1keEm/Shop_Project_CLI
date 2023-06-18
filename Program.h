@@ -4,6 +4,7 @@
 
 #ifndef SHOP_PROJECT_CLI_PROGRAM_H
 #define SHOP_PROJECT_CLI_PROGRAM_H
+
 #include "Client.h"
 #include "vector"
 
@@ -15,10 +16,10 @@ private:
 
 public:
     void AddNewClient();
-    void ModifyClient();
-    void SaveClientsToTextFile();
-    void SaveClientsToBinaryFile();
 
+    void ModifyClient();
+
+    void SaveClientsToFile();
 
 };
 

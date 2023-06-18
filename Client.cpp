@@ -37,6 +37,6 @@ void Client::setAddress(const string &address) {
 }
 
 void Client::setGender(const char gender) {
-    this->gender = gender;
+    this->gender = (char) toupper((int) gender);
 }
 
