@@ -6,11 +6,6 @@
 #include <fstream>
 #include <sstream>
 
-struct Product {
-    string name;
-    double price;
-    double vatRate;
-};
 
 void Program::AddNewClient() {
     string name, surname, address1;
@@ -121,9 +116,6 @@ void Program::SaveClientsToFile() {
         for (int i = 0; i < clients.size(); i++) {
             fileBinary.write(reinterpret_cast<char *>(&i), sizeof(int));
             fileBinary.write(reinterpret_cast<char *>(&clients[i]), clients.size());
-//            fileBinary.write((char*)&clients[i].getLastName(), sizeof(string));
-//            fileBinary.write((char*)&clients[i].getAddress(), sizeof(string));
-//            fileBinary.write((char*)&clients[i].getGender(), sizeof(char));
         }
         cout << "Zapis do pliku binarnego przebiegl pomyslnie" << endl;
     } else {
@@ -259,12 +251,6 @@ void Program::EditOrder() {
     cout << "Edycja ilosci ";
     cin >> quantity;
 
-    cout << "Edycja VAT: ";
-    cin >> vatRate;
-
-    cout << "Edycja ceny: ";
-    cin >> price;
-
     cout << "Edycja daty: ";
     cin.ignore();
     getline(cin, orderDate);
@@ -306,8 +292,6 @@ void Program::EditOrder() {
     totalValue = price * quantity * (1 + vatRate);
     orders[index - 1].setProductName(productName);
     orders[index - 1].setQuantity(quantity);
-    orders[index - 1].setVatRate(vatRate);
-    orders[index - 1].setPrice(price);
     orders[index - 1].setOrderDate(orderDate);
     orders[index - 1].setTotalValue(totalValue);
     orders[index - 1].setPaymentMethod(paymentMethod);
@@ -338,7 +322,7 @@ void Program::SaveOrdersToFile() {
         for (const auto &order: orders) {
             outputFile << " Nazwa produktu: " << order.getProductName() << ","
                        << " Ilosc: " << order.getQuantity() << ","
-                       << " Stawka VAT: " << order.getVatRate() << ","
+                       << " Koszt VAT: " << order.getVatRate() << ","
                        << " Cena: " << order.getPrice() << ","
                        << " Data: " << order.getOrderDate() << ","
                        << " Calkowita wartosc zamowienia: " << order.getTotalValue() << ","
