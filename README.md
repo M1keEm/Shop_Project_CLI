@@ -105,3 +105,30 @@ The CLI supports the following commands through its menu interface:
 - **View Customers:** Display all customers in the database.
 
 - **View Orders:** Display all orders.
+
+---
+
+## How it works
+
+**Data Storage**
+
+- Products, Customers, and Orders are stored in text files (`products.txt`, `customers.txt`, `orders.txt`).
+
+- Data is loaded from these files when the application starts and saved back when changes are made.
+
+**Code Structure**
+
+- `main.cpp`: The entry point of the application. Handles the main menu and user input.
+
+- `ShopManager.cpp`: Contains the core logic for managing products, customers, and orders.
+
+- `FileHandler.cpp`: Provides utility functions for loading and saving data.
+
+**Workflow**
+
+- The user interacts with the CLI through a series of menus and prompts.
+
+- Data is validated and processed before being saved to the appropriate text file.
+
+- The application ensures data consistency and provides feedback for user actions.
+
