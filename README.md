@@ -132,3 +132,29 @@ The CLI supports the following commands through its menu interface:
 
 - The application ensures data consistency and provides feedback for user actions.
 
+## Contributing
+
+Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/YourFeatureName`).
+3. Commit your changes (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature/YourFeatureName`).
+5. Open a pull request.
+
+Please ensure your code follows the existing style and includes appropriate documentation.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## Contact
+
+If you have any questions or suggestions, feel free to reach out:
+
+- **MikeEm** - [My Github](https://github.com/m1keem)
+- **Project Link** - [Repository](https://github.com/m1keem/shop_project_cli)
