@@ -79,3 +79,29 @@ The Shop Project CLI provides a menu-driven interface for managing shop operatio
 4. **View Data:**
 
   - Use the "View Products," "View Customers," or "View Orders" options to see stored data.
+
+---
+
+## Commands
+
+The CLI supports the following commands through its menu interface:
+
+- **Add Product:** Add a new product to the inventory.
+
+- **Update Product:** Update an existing product's details.
+
+- **Delete Product:** Remove a product from the inventory.
+
+- **Add Customer:** Add a new customer to the database.
+
+- **Update Customer:** Update an existing customer's details.
+
+- **Delete Customer:** Remove a customer from the database.
+
+- **Create Order:** Create a new order for a customer.
+
+- **View Products:** Display all products in the inventory.
+
+- **View Customers:** Display all customers in the database.
+
+- **View Orders:** Display all orders.
